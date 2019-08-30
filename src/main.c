@@ -1,15 +1,10 @@
 #include <stdio.h>
-#include "tissue.h"
+#include "zhl16.h"
 
 int main(int argc, char** argv) 
 {
-	printf("Hello\n");
-
-	struct TISSUE tissue;
-
-	tissue_set_load(&tissue, 10);
-
-	printf("Tissue: %f\n", tissue.load);
+	zhl16_init();
+	zhl16_print_tissue_state();
 }
 
 

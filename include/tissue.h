@@ -14,4 +14,9 @@ struct TISSUE {
  */
 extern void tissue_set_load(struct TISSUE*, double);
 
+/*!
+ * Sets all the values for the tissue
+ */
+extern void tissue_init(struct TISSUE*, double, double, double, double);
+
 #endif
