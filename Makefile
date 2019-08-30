@@ -10,8 +10,7 @@ MYLIB_OBJS=	$(filter-out src/main.o, $(MYCODE_OBJS))
 MYTEST_SOURCE=	$(shell find tests -type f -name "*.c")
 MYTEST_OBJS=	$(MYTEST_SOURCE:.c=.o)
 
-
-NOVAPROVA_CFLAGS= $(shell pkg-config --cflags novaprova) -no-pie
+NOVAPROVA_CFLAGS= $(shell pkg-config --cflags novaprova) -no-pie -gdwarf-2
 NOVAPROVA_LIBS= $(shell pkg-config --libs novaprova)
 
 CFLAGS= -g $(NOVAPROVA_CFLAGS) -I./include/
@@ -26,8 +25,8 @@ $(PROJECT_NAME): $(MYCODE_OBJS)
 clean:
 	$(RM) test $(MYCODE_OBJS) testlib.a $(MYTEST_OBJS)
 
-testrunner: $(TEST_OBJS) testlib.a
-	$(LINK.c) -o $@ $(TEST_OBJS) testlib.a $(NOVAPROVA_LIBS)
+testrunner: $(MYTEST_OBJS) testlib.a
+	$(LINK.c) -o $@ $(MYTEST_OBJS) testlib.a $(NOVAPROVA_LIBS)
 
 check: testrunner
 	./testrunner
