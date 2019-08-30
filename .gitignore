@@ -1,0 +1,5 @@
+*.o
+Buhlmann
+Buhlmann.a
+testlib.a
+testrunner
