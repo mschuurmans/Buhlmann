@@ -38,7 +38,9 @@ void zhl16_dive(double pressure, double delta)
 {
 	double r = (gas_get_partial_pressure(current_gas, pressure) - gas_get_partial_pressure(current_gas, previous_pressure)) / delta;
 
+	printf("pressure: %f\n", previous_pressure);
 	zhl16_update_tissue_loads(previous_pressure, r, delta);
+	printf("NDL: %f\n", zhl16_get_ndl(pressure));
 
 	previous_pressure = pressure;
 }
@@ -50,8 +52,7 @@ double zhl16_get_ptol(double ambient, double a, double b)
 	double i = a * gradient_factor_high;
 	double r = am / b;
 
-//	return i + r;
-	return a * gradient_factor_high + ((ambient * (gradient_factor_high - gradient_factor_high * b + b)) / b);
+	return i + r;
 }
 
 double zhl16_haldane_time(double k, double tissue, double load, double palv)
@@ -74,7 +75,7 @@ double zhl16_get_ndl(double pressure)
 
 		// Only if compartment is under pTol otherwise ndl is -1 and others are irrelevant
 		if (tissues[i].load < ptol) {
-			// printf("Partial pressure: %f - ptol: %f - tissue load: %f\n", gas_get_partial_pressure(current_gas, pressure), ptol, tissues[i].load);
+			printf("Partial pressure: %f - ptol: %f - tissue load: %f\n", gas_get_partial_pressure(current_gas, pressure), ptol, tissues[i].load);
 			if (ptol < gas_get_partial_pressure(current_gas, pressure)) { // if ptol can be reached
 				double tmp = zhl16_haldane_time(tissues[i].k, ptol, tissues[i].load, gas_get_partial_pressure(current_gas, pressure));
 

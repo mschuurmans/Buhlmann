@@ -9,6 +9,8 @@ timer_t timer;
 
 void timer_start(void (*callback))
 {
+	// TODO change to embedded platform?
+
 	signal(SIGALRM, callback);
 	
 	struct itimerspec value;
@@ -22,7 +24,3 @@ void timer_start(void (*callback))
 	timer_settime(timer, 0, &value, NULL);
 }
 
-void timer_callback(int sig)
-{
-	printf("Callback\n");
-}
