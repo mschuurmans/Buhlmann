@@ -38,26 +38,20 @@ void zhl16_dive(double pressure, double delta)
 {
 	double r = (gas_get_partial_pressure(current_gas, pressure) - gas_get_partial_pressure(current_gas, previous_pressure)) / delta;
 
-	zhl16_update_tissue_loads(previous_pressure, r, delta);
+	zhl16_update_tissue_loads(gas_get_partial_pressure(current_gas, previous_pressure), r, delta);
 
 	previous_pressure = pressure;
 }
 
-double zhl16_get_ptol(double ambient, double a, double b)
+double zhl16_get_ptol(double ambient, double a, double b, double gf)
 {
-	double t = (gradient_factor_high * b) - gradient_factor_high - b;
-	double am = ambient * t;
-	double i = a * gradient_factor_high;
-	double r = am / b;
-
-//	return i + r;
-	return a * gradient_factor_high + ((ambient * (gradient_factor_high - gradient_factor_high * b + b)) / b);
+	return a * gf + ((ambient * (gf - gf * b + b)) / b);
 }
 
-double zhl16_haldane_time(double k, double tissue, double load, double palv)
+double zhl16_haldane_time(double k, double ptol, double load, double partial)
 {
-	double logArg = (tissue - palv) / (load - palv);
-	
+	double logArg = (ptol - partial) / (load - partial);
+
 	if (logArg < 0)
 		printf("Logarg < 0 in haldane time\n");
 
@@ -70,13 +64,15 @@ double zhl16_get_ndl(double pressure)
 
 	int i;
 	for (i = 0; i < 16; i++) {
-		double ptol = zhl16_get_ptol(1, tissues[i].a, tissues[i].b);
+		double ptol = zhl16_get_ptol(1, tissues[i].a, tissues[i].b, gradient_factor_high);
 
 		// Only if compartment is under pTol otherwise ndl is -1 and others are irrelevant
 		if (tissues[i].load < ptol) {
-			// printf("Partial pressure: %f - ptol: %f - tissue load: %f\n", gas_get_partial_pressure(current_gas, pressure), ptol, tissues[i].load);
+			//printf("Partial pressure: %f - ptol: %f - tissue load: %f\n", gas_get_partial_pressure(current_gas, pressure), ptol, tissues[i].load);
 			if (ptol < gas_get_partial_pressure(current_gas, pressure)) { // if ptol can be reached
+
 				double tmp = zhl16_haldane_time(tissues[i].k, ptol, tissues[i].load, gas_get_partial_pressure(current_gas, pressure));
+				printf("NDL: %f - NDLI: %f\n", ndl, tmp);
 
 				if (tmp < ndl) 
 					ndl = tmp;
@@ -110,22 +106,22 @@ void zhl16_init(struct GAS *gas)
 	zhl16_set_current_gas(gas);
 	
 	// TODO set initial load (based on current pressure and/or left over from previous dive?)
-	tissue_init(&tissues[0], 1.1696, 0.5578, 0.00231049060186648, 0);
-	tissue_init(&tissues[1], 1.0, 0.6514, 0.00144405662616655, 0);
-	tissue_init(&tissues[2], 0.8618, 0.7222, 0.00092419624074659, 0);
-	tissue_init(&tissues[3], 0.7562, 0.7825, 0.00062445691942338, 0);
-	tissue_init(&tissues[4], 0.62, 0.8124, 0.00042786862997528, 0);
-	tissue_init(&tissues[5], 0.5043, 0.8434, 0.00030163062687552, 0);
-	tissue_init(&tissues[6], 0.441, 0.8693, 0.00021275235744627, 0);
-	tissue_init(&tissues[7], 0.4, 0.891, 0.00015003185726406, 0);
-	tissue_init(&tissues[8], 0.375, 0.9092, 0.00010598580742507, 0);
-	tissue_init(&tissues[9], 0.35, 0.9222, 0.00007912639047488, 0);
-	tissue_init(&tissues[10], 0.3295, 0.9319, 0.00006177782357932, 0);
-	tissue_init(&tissues[11], 0.3065, 0.9403, 0.00004833662347001, 0);
-	tissue_init(&tissues[12], 0.2835, 0.9477, 0.00003787689511257, 0);
-	tissue_init(&tissues[13], 0.261, 0.9544, 0.00002962167438290, 0);
-	tissue_init(&tissues[14], 0.248, 0.9602, 0.00002319769680589, 0);
-	tissue_init(&tissues[15], 0.2327, 0.9653, 0.00001819283938478, 0);
+	tissue_init(&tissues[0], 1.1696,	0.5578, 0.00231049060186648, gas_get_partial_pressure(current_gas, 1));
+	tissue_init(&tissues[1], 1.0, 		0.6514, 0.00144405662616655, gas_get_partial_pressure(current_gas, 1));
+	tissue_init(&tissues[2], 0.8618, 	0.7222, 0.00092419624074659, gas_get_partial_pressure(current_gas, 1));
+	tissue_init(&tissues[3], 0.7562, 	0.7825, 0.00062445691942338, gas_get_partial_pressure(current_gas, 1));
+	tissue_init(&tissues[4], 0.62,		0.8124, 0.00042786862997528, gas_get_partial_pressure(current_gas, 1));
+	tissue_init(&tissues[5], 0.5043,	0.8434, 0.00030163062687552, gas_get_partial_pressure(current_gas, 1));
+	tissue_init(&tissues[6], 0.441,		0.8693, 0.00021275235744627, gas_get_partial_pressure(current_gas, 1));
+	tissue_init(&tissues[7], 0.4, 		0.891,	0.00015003185726406, gas_get_partial_pressure(current_gas, 1));
+	tissue_init(&tissues[8], 0.375, 	0.9092, 0.00010598580742507, gas_get_partial_pressure(current_gas, 1));
+	tissue_init(&tissues[9], 0.35, 		0.9222, 0.00007912639047488, gas_get_partial_pressure(current_gas, 1));
+	tissue_init(&tissues[10], 0.3295, 	0.9319, 0.00006177782357932, gas_get_partial_pressure(current_gas, 1));
+	tissue_init(&tissues[11], 0.3065, 	0.9403, 0.00004833662347001, gas_get_partial_pressure(current_gas, 1));
+	tissue_init(&tissues[12], 0.2835, 	0.9477, 0.00003787689511257, gas_get_partial_pressure(current_gas, 1));
+	tissue_init(&tissues[13], 0.261, 	0.9544, 0.00002962167438290, gas_get_partial_pressure(current_gas, 1));
+	tissue_init(&tissues[14], 0.248, 	0.9602, 0.00002319769680589, gas_get_partial_pressure(current_gas, 1));
+	tissue_init(&tissues[15], 0.2327, 	0.9653, 0.00001819283938478, gas_get_partial_pressure(current_gas, 1));
 
 	printf("Tissue: %f\n", tissues[0].load);
 }

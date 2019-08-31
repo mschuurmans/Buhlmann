@@ -11,7 +11,7 @@ int main(int argc, char** argv)
 {
 	struct GAS gas;
 
-	if (gas_init(&gas, 5, 35)) {
+	if (gas_init(&gas, 21, 35)) {
 		printf("Gas is incorrect!\n");
 		exit(1);
 	}
@@ -31,10 +31,8 @@ void main_tick(int sig)
 	// zhl dive...
 	printf("Registering dive point\n");
 
-	int i;
-	for (i = 0; i < 60; i++ ) {
-		zhl16_dive(3, 1);
-	}
+	zhl16_dive(2.25, 60);
 
-	printf("NDL: %f seconds is minutes: %f\n", zhl16_get_ndl(3), zhl16_get_ndl(3) / 60);
+	//printf("NDL: %f seconds minutes: %f\n", zhl16_get_ndl(3), zhl16_get_ndl(3) / 60);
+	zhl16_get_ndl(3);
 }
