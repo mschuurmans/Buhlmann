@@ -14,6 +14,7 @@ NOVAPROVA_CFLAGS= $(shell pkg-config --cflags novaprova) -no-pie -gdwarf-2
 NOVAPROVA_LIBS= $(shell pkg-config --libs novaprova)
 
 CFLAGS= -g $(NOVAPROVA_CFLAGS) -I./include/
+CLIBS= -lrt
 
 testlib.a: $(MYLIB_OBJS)
 	ar ruv $@ $(MYLIB_OBJS)
