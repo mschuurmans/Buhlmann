@@ -110,7 +110,7 @@ void zhl16_init(struct GAS *gas)
 	tissue_init(&tissues[1], 1.0, 		0.6514, 0.00144405662616655, gas_get_partial_pressure(current_gas, 1));
 	tissue_init(&tissues[2], 0.8618, 	0.7222, 0.00092419624074659, gas_get_partial_pressure(current_gas, 1));
 	tissue_init(&tissues[3], 0.7562, 	0.7825, 0.00062445691942338, gas_get_partial_pressure(current_gas, 1));
-	tissue_init(&tissues[4], 0.62,		0.8124, 0.00042786862997528, gas_get_partial_pressure(current_gas, 1));
+	tissue_init(&tissues[4], 0.62,		0.8126, 0.00042786862997528, gas_get_partial_pressure(current_gas, 1));
 	tissue_init(&tissues[5], 0.5043,	0.8434, 0.00030163062687552, gas_get_partial_pressure(current_gas, 1));
 	tissue_init(&tissues[6], 0.441,		0.8693, 0.00021275235744627, gas_get_partial_pressure(current_gas, 1));
 	tissue_init(&tissues[7], 0.4, 		0.891,	0.00015003185726406, gas_get_partial_pressure(current_gas, 1));
