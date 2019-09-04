@@ -1,5 +1,5 @@
 default:
-        image: debian/buildd:latest
+        image: debian/buildd:buster
 
 build:
         script:
