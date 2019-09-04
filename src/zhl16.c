@@ -72,7 +72,7 @@ double zhl16_get_ndl(double pressure)
 			if (ptol < gas_get_partial_pressure(current_gas, pressure)) { // if ptol can be reached
 
 				double tmp = zhl16_haldane_time(tissues[i].k, ptol, tissues[i].load, gas_get_partial_pressure(current_gas, pressure));
-				printf("NDL: %f - NDLI: %f\n", ndl, tmp);
+				printf("Tissue: %d - NDL: %f - NDLI: %f\n", i, ndl, tmp);
 
 				if (tmp < ndl) 
 					ndl = tmp;
