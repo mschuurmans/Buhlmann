@@ -14,4 +14,3 @@ $(PROJECT_NAME): $(MYCODE_OBJS)
 
 clean:
 	$(RM) $(MYCODE_OBJS) $(MYTEST_OBJS)
-
