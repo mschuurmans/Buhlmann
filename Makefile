@@ -1,4 +1,4 @@
-PROJECT_NAME=	Buhlmann
+PROJECT_NAME=	buhlmann
 
 all: $(PROJECT_NAME)
 
