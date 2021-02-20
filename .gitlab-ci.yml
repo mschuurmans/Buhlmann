@@ -1,6 +1,0 @@
-default:
-        image: debian/buildd:buster
-
-build:
-        script:
-                - make
