@@ -14,7 +14,7 @@ SOURCES=$(shell find . -type f -name "*.c")
 OBJECTS=$(SOURCES:.c=.o)
 
 CFLAGS = -g -Wall -Wextra
-CLIBS = 
+CLIBS = -lrt -lm
 
 $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(CFLAGS) -o $(EXECUTABLE) $(OBJECTS) $(CLIBS)
