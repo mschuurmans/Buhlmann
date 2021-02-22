@@ -2,10 +2,11 @@
 #define __GAS_H_
 
 struct gas {
-	double o2;
-	double n2;
+	float o2;
+	float n2;
+	float he;
 };
 
-int gas_init(struct gas *, double);
+int gas_init(struct gas *, float, float);
 
 #endif

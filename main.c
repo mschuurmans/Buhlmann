@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdlib.h>
+#include <time.h>
 #include "log.h"
 #include "gas.h"
 #include "decompression.h"
@@ -14,7 +15,7 @@ int main(int argc, char** argv)
 
 	struct gas gas;
 
-	gas_init(&gas, 21);
+	gas_init(&gas, 21, 35);
 
 	log_info("Set gas to %f", gas.o2);
 
@@ -32,5 +33,6 @@ int main(int argc, char** argv)
 
 void main_tick(int sig)
 {
-	decompression_dive(1);
+	decompression_dive(time(NULL));
+	zhl16_print();
 }

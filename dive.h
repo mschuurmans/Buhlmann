@@ -4,9 +4,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-/* TODO get from config file? */
-#define WITH_STEAM_PRESSURE
-
 struct dive {
 	float	depth;
 	float	depth_old;

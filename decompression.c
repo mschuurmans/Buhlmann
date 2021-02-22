@@ -19,9 +19,9 @@ int decompression_register(struct decompression_operations *ops)
 	return 0;
 }
 
-int decompression_dive(double pressure)
+int decompression_dive(long cur_time)
 {
-	return decompression_operations->dive(pressure);
+	return decompression_operations->dive(cur_time);
 }
 
 int decompression_set_gas(struct gas *gas)

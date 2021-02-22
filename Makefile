@@ -16,6 +16,8 @@ OBJECTS=$(SOURCES:.c=.o)
 CFLAGS = -g -Wall -Wextra
 CLIBS = -lrt -lm
 
+include .config
+
 $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(CFLAGS) -o $(EXECUTABLE) $(OBJECTS) $(CLIBS)
 
