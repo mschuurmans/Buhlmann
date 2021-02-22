@@ -1,6 +1,6 @@
 #include "gas.h"
 
-int gas_init(struct GAS *gas, double oxygen)
+int gas_init(struct gas *gas, double oxygen)
 {
 	if (gas) {
 		gas->o2 = oxygen;

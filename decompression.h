@@ -5,12 +5,12 @@
 
 struct decompression_operations {
 	int (*dive)(double pressure);
-	int (*set_gas)(struct GAS *);
+	int (*set_gas)(struct gas *);
 	int (*init)();
 };
 
 int decompression_register(struct decompression_operations *ops);
 int decompression_dive(double pressure);
-int decompression_set_gas(struct GAS *);
+int decompression_set_gas(struct gas *);
 
 #endif

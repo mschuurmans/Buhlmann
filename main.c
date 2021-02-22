@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 {
 	log_info("Starting buhlman");
 
-	struct GAS gas;
+	struct gas gas;
 
 	gas_init(&gas, 21);
 

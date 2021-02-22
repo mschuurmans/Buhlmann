@@ -24,7 +24,7 @@ int decompression_dive(double pressure)
 	return decompression_operations->dive(pressure);
 }
 
-int decompression_set_gas(struct GAS *gas)
+int decompression_set_gas(struct gas *gas)
 {
 	return decompression_operations->set_gas(gas);
 }
